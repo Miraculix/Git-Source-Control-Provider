@@ -33,7 +33,7 @@ namespace GitScc.UI
         private void root_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             this.Selected = !this.Selected;
-            VisualStateManager.GoToElementState(this.root, this.Selected ? "SelectedSate" : "NotSelectedState", true);
+            //VisualStateManager.GoToElementState(this.root, this.Selected ? "SelectedSate" : "NotSelectedState", true);
             //HistoryViewCommands.SelectCommit.Execute(this.txtId.Text, null);
         }
 

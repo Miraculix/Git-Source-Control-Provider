@@ -50,17 +50,17 @@ namespace GitUI
             {
                 FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(workingDirectory);
 
-                fileSystemWatcher.Created += (_, e) => RefreshGraph();
-                fileSystemWatcher.Changed += (_, e) => RefreshGraph();
-                fileSystemWatcher.Deleted += (_, e) => RefreshGraph();
-                fileSystemWatcher.Renamed += (_, e) => RefreshGraph();
+                fileSystemWatcher.Created += (_, e) => Refresh();
+                fileSystemWatcher.Changed += (_, e) => Refresh();
+                fileSystemWatcher.Deleted += (_, e) => Refresh();
+                fileSystemWatcher.Renamed += (_, e) => Refresh();
                 fileSystemWatcher.EnableRaisingEvents = true;
             }
         }
 
         private DateTime lastTimeRefresh = DateTime.Now;
 
-        internal void RefreshGraph()
+        internal void Refresh()
         {
             double delta = DateTime.Now.Subtract(lastTimeRefresh).TotalMilliseconds;
             if (delta > 1000)
@@ -70,6 +70,11 @@ namespace GitUI
                 GraphChanged(this, null);
                 lastTimeRefresh = DateTime.Now;
             }
+        }
+
+        internal void RefreshGraph()
+        {
+            GraphChanged(this, null);
         }
     }
 }

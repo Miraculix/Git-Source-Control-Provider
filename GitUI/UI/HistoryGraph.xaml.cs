@@ -109,23 +109,24 @@ namespace GitScc.UI
 
         private GitFileStatusTracker tracker;
 
-        private void Show(GitFileStatusTracker tracker)
+        internal void Show(GitFileStatusTracker tracker)
         {
             this.tracker = tracker;
-            if (tracker == null || !tracker.HasGitRepository) return;
-
-            loading.Visibility = Visibility.Visible;
-
-            List<GraphNode> commits = tracker.RepositoryGraph.Nodes;
+            maxX = maxY = 0;
+            loading.Visibility = Visibility.Visible;            
+            
+            IList<GraphNode> commits = null;
+            if (tracker != null && tracker.HasGitRepository)
+            {
+                commits = tracker.RepositoryGraph.Nodes;
+            }
 
             Action act = () =>
             {
                 canvasContainer.Children.Clear();
 
-                if (tracker != null && tracker.HasGitRepository)
+                if (commits != null)
                 {
-                    if (commits.Count <= 0) return;
-
                     maxX = commits.Count();
                     maxY = commits.Max(c => c.X);
 
@@ -304,15 +305,15 @@ namespace GitScc.UI
                     }
 
                     #endregion
-
-                    AdjustCanvasSize();
-
-                    this.scrollRoot.ScrollToRightEnd();
                 }
+
+                AdjustCanvasSize();
+
+                this.scrollRoot.ScrollToRightEnd();
 
                 loading.Visibility = Visibility.Collapsed;
             };
-
+            
             this.Dispatcher.BeginInvoke(act, DispatcherPriority.ApplicationIdle);
         }
 

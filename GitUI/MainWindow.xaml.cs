@@ -54,7 +54,7 @@ namespace GitUI
         {
             if (e.Key == Key.F5)
             {
-                gitViewModel.RefreshGraph();
+                gitViewModel.Refresh();
             }
         }
 

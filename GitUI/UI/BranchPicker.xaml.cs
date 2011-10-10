@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NGit;
 using NGit.Api;
+using GitScc.DataServices;
 
 namespace GitScc.UI
 {
@@ -22,15 +23,17 @@ namespace GitScc.UI
     public partial class BranchPicker : UserControl
     {
         private Window window;
-        Repository repository;
+        private Repository repository;
+        private List<DataServices.Ref> list;
 
         public string BranchName { get; set; }
         public bool CreateNew { get; set; }
 
-        public BranchPicker(Repository repository)
+        public BranchPicker(Repository repository, List<DataServices.Ref> list)
         {
             InitializeComponent();
             this.repository = repository;
+            this.list = list;
         }
 
         internal bool? Show()
@@ -45,12 +48,9 @@ namespace GitScc.UI
                 Height = 200
             };
 
-            comboBranches.ItemsSource = repository.GetAllRefs().Values
-                .Where(r => !r.IsSymbolic())
-                .Select(r => r.GetName().Substring(11));
-
+            comboBranches.ItemsSource = list.Where(r => r.Type == RefTypes.Branch).Select(r => r.Name);
             comboBranches.SelectedValue = repository.GetBranch();
-            return window.ShowDialog(); 
+            return window.ShowDialog();
         }
 
         private void comboBranches_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -69,14 +69,14 @@ namespace GitScc.UI
         {
             btnOK.IsEnabled = txtNewBranch.Text.Length > 0;
         }
-        
+
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 Git git = new Git(this.repository);
-                
-                git.Checkout().SetName(radioButton1.IsChecked == true ? 
+
+                git.Checkout().SetName(radioButton1.IsChecked == true ?
                         comboBranches.SelectedValue.ToString() : txtNewBranch.Text)
                     .SetCreateBranch(radioButton2.IsChecked == true)
                     .Call();
