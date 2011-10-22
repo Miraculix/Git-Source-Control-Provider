@@ -72,15 +72,14 @@ namespace GitUI
         private void Grid_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             var y = e.GetPosition(rootGrid).Y;
-            //System.Diagnostics.Debug.WriteLine(y);
             if (y < 60)
             {
                 ShowTopToolBar();
             }
-            else if (y > 60)
-            {
-                HideTopToolBar();
-            }
+            //else if (y > rootGrid.ActualHeight - 60) //cannot do this, because it covers the scrollbar
+            //{
+            //    ShowBottomToolBarBar();
+            //}
         }
 
         private void ShowTopToolBar()
@@ -135,5 +134,14 @@ namespace GitUI
             }
         }
 
+        private void rootGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var y = e.GetPosition(rootGrid).Y;
+            if (y > 60 && y < rootGrid.ActualHeight - 60)
+            {
+                HideTopToolBar();
+                HideBottomToolBar();
+            }
+        }
     }
 }

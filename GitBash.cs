@@ -17,7 +17,7 @@ namespace GitScc
             {
                 try
                 {
-                    gitExePath = Path.Combine(Path.GetDirectoryName(value), "git.exe");
+                    gitExePath = value == null ? null : Path.Combine(Path.GetDirectoryName(value), "git.exe");
                 }
                 catch{}
             }
@@ -69,7 +69,7 @@ namespace GitScc
 
             var pinfo = new ProcessStartInfo("cmd.exe")
             {
-                Arguments = "/C \"\"" + gitExePath + "\"\" " + args,
+                Arguments = "/C \"\"" + gitExePath + "\" " + args + "\"",
                 CreateNoWindow = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,

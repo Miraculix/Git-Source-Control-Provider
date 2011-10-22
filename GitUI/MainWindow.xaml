@@ -6,7 +6,7 @@
     <Window.CommandBindings>
         <CommandBinding Command="cmd:HistoryViewCommands.ExportGraph"  Executed="ExportGraph" />
     </Window.CommandBindings>
-    <Grid x:Name="rootGrid" PreviewMouseMove="Grid_PreviewMouseMove" PreviewMouseRightButtonDown="rootGrid_PreviewMouseRightButtonDown">
+    <Grid x:Name="rootGrid" PreviewMouseMove="Grid_PreviewMouseMove" PreviewMouseRightButtonDown="rootGrid_PreviewMouseRightButtonDown" PreviewMouseLeftButtonDown="rootGrid_PreviewMouseLeftButtonDown">
         <!--<Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
